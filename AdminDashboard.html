@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>AngularJS & Bootstrap Form Validation</title>
+<!--
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+ <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.js"></script>
+  <script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+-->
+ <script src="angular.min.js"></script>   
+ <script src="jquery.min.js"></script>    
+<script src="bootstrap.min.js"></script>
+    <script src="ngStorage.js"></script>
+    <script src="angular-modal-service.js"></script>
+    <script src="ModalController.js"></script>
+    <script src="PaginationController.js"></script>
+    
+
+ <link rel="stylesheet" href="css/AdminStyles.css">
+ <link rel="stylesheet" href="scaffold.css">
+
+</head>
+<body ng-app="myapp" ng-controller="AdminController"  ng-controller="ComplexController" > 
+ <div class="container"  ng-controller="SampleController" >
+
+ <span id="msg">{{msg}}</span>
+ <!-- PAGE HEADER -->
+ <div class="page-header"><h1>Products</h1>
+ <div class="bar">
+		<!-- Create a binding between the searchString model and the text field -->
+		<input type="text" ng-model="search"  placeholder="Enter your search terms" />
+	</div>
+	<button type="button" class="btn btn-primary btn-lg" id="button" data-toggle="modal" data-target="#myModal" ng-click="showComplex()">Create New Product</button>
+	<div >
+      <pre ng-show="complexResult">{{complexResult}}   {{value}}</pre>
+</div>
+
+ </div>
+  
+      <div ng-controller="PaginationCtrl">
+        <table class="table table-hover">
+        <thead>
+          
+      <tr>
+        <th>Product Name</th>
+        <th>Category</th> 
+          <th>Description</th>
+        <th>Price</th>
+        <th>Photos</th>
+        <th>Actions</th>
+        
+      </tr>
+      </thead>
+       <tbody>
+       
+         <tr ng-repeat="data in items | filter : search  | offset: currentPage*itemsPerPage| limitTo: itemsPerPage ">
+                 <td>{{$index+1}}</td>
+                <td><b>{{data.productName}}</b></td>
+                <td>{{data.category}}</td>
+                 <td>{{data.description}}</td>
+                  <td>{{data.price |currency}}</td>
+                   <td><img ng-src='{{data.imageUrl}}' width=200 height=200/></td>
+                <td><a href="" ng-click="removeName(data)" class="btn btn-danger custom-width">Delete</a></td>
+                
+            </tr>
+        </tbody>
+        <tfoot>
+        <td colspan="3">
+          <div class="pagination">
+            <ul>
+              <li ng-class="prevPageDisabled()">
+                <a href ng-click="prevPage()">&lt;&lt;Prev</a>
+              </li>
+              <li ng-repeat="n in range()" ng-class="{active: n == currentPage}" ng-click="setPage(n)">
+                <a href="#">{{n+1}}</a>
+              </li>
+              <li ng-class="nextPageDisabled()">
+                <a href ng-click="nextPage()">Next &gt;&gt;</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tfoot>       
+        </table>
+        </div>
+     </div>
+    </body>
+</html>
